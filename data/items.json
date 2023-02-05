@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "name": "Skjorta",
+      "price": 19.99
+    },
+    {
+      "id": "2",
+      "name": "Jacka",
+      "price": 19.99
+    },
+    {
+      "id": "3",
+      "name": "Byxor",
+      "price": 19.99
+    },
+    {
+      "id": "4",
+      "name": "Skor",
+      "price": 19.99
+    }
+  ]
+}
