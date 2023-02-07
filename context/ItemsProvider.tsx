@@ -1,4 +1,4 @@
-import React, { createContext, ReactElement, useState } from "react";
+import React, { createContext, ReactElement, useState, useEffect } from "react";
 
 export type ItemType = {
   id: string;
@@ -6,28 +6,7 @@ export type ItemType = {
   price: number;
 };
 
-const initialState: ItemType[] = [
-  {
-    id: "item001",
-    name: "Skjorta",
-    price: 19.99,
-  },
-  {
-    id: "item002",
-    name: "Jacka",
-    price: 19.99,
-  },
-  {
-    id: "item003",
-    name: "Byxor",
-    price: 19.99,
-  },
-  {
-    id: "item004",
-    name: "Skor",
-    price: 19.99,
-  },
-];
+const initialState: ItemType[] = [];
 
 export type UseItemsContextType = {
   items: ItemType[];
@@ -39,9 +18,28 @@ const ItemsContext = createContext<UseItemsContextType>(initialContextState);
 
 type ChildrenType = { children?: ReactElement | ReactElement[] };
 
-//instead of passing the initial state as a param, use the lexical scope instead
 export const ItemsProvider = ({ children }: ChildrenType): ReactElement => {
   const [items, setItems] = useState<ItemType[]>(initialState);
+
+  //set the items that I will receive from json server
+  useEffect(() => {
+    const fetchItems = async (): Promise<ItemType[]> => {
+      const data = await fetch("http://localhost:1234/items")
+        .then((res) => {
+          return res.json();
+        })
+        .catch((err) => {
+          if (err instanceof Error)
+            console.log(
+              `Something went wrong: Name: ${err.name}. Message: ${err.message}`
+            );
+        });
+      return data;
+    };
+
+    fetchItems().then((items) => setItems(items));
+  }, []);
+
   return (
     <ItemsContext.Provider value={{ items }}>{children}</ItemsContext.Provider>
   );
