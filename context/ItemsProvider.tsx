@@ -21,7 +21,6 @@ type ChildrenType = { children?: ReactElement | ReactElement[] };
 export const ItemsProvider = ({ children }: ChildrenType): ReactElement => {
   const [items, setItems] = useState<ItemType[]>(initialState);
 
-  //set the items that I will receive from json server
   useEffect(() => {
     const fetchItems = async (): Promise<ItemType[]> => {
       const data = await fetch("http://localhost:1234/items")
